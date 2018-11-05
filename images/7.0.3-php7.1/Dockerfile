@@ -37,7 +37,7 @@ ADD http://vorboss.dl.sourceforge.net/project/takepos/module_takepos-8.0.zip /tm
 RUN unzip -q /tmp/dolibarr.zip -d /tmp/dolibarr
 RUN unzip -q /tmp/takepos.zip -d /tmp/takepos
 RUN cp -r /tmp/dolibarr/dolibarr-${DOLI_VERSION}/htdocs/* /var/www/html/ && ln -s /var/www/html /var/www/htdocs
-RUN cp -r /tmp/dolibarr/takepos/* /var/www/html/ 
+RUN cp -r /tmp/takepos/* /var/www/html/ 
 RUN cp -r /tmp/dolibarr/dolibarr-${DOLI_VERSION}/scripts /var/www/
 RUN rm -rf /tmp/dolibarr
 RUN rm -rf /tmp/takepos
