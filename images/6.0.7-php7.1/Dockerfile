@@ -29,14 +29,18 @@ RUN apt-get update -q && apt-get upgrade -yq \
 		unzip \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
-	&& docker-php-ext-install mysqli pdo pdo_mysql gd soap zip
+	&& docker-php-ext-install mysqli pdo pdo_mysql gd soap zip imap
 
 # Get Dolibarr
 ADD https://github.com/Dolibarr/dolibarr/archive/${DOLI_VERSION}.zip /tmp/dolibarr.zip
+ADD https://vorboss.dl.sourceforge.net/project/takepos/module_takepos-8.0.zip /tmp/takepos.zip
 RUN unzip -q /tmp/dolibarr.zip -d /tmp/dolibarr
+RUN unzip -q /tmp/takepos.zip -d /tmp/takepos
 RUN cp -r /tmp/dolibarr/dolibarr-${DOLI_VERSION}/htdocs/* /var/www/html/ && ln -s /var/www/html /var/www/htdocs
+RUN cp -r /tmp/dolibarr/takepos/* /var/www/html/ 
 RUN cp -r /tmp/dolibarr/dolibarr-${DOLI_VERSION}/scripts /var/www/
 RUN rm -rf /tmp/dolibarr
+RUN rm -rf /tmp/takepos
 
 EXPOSE 80
 

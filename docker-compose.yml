@@ -7,24 +7,35 @@
 # $ docker-compose up
 #
 # More informations about Docker-compose : https://docs.docker.com/compose/
+version: '2.1'
+networks:
+  backend:
+    driver: bridge
 
-mariadb:
-    image: mariadb:latest
-    environment:
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: dolibarr
+services:
+    mariadb:
+        image: mariadb:latest
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: aiCu6au6iqui
 
-web:
-    build: ./images/$DOLI_VERSION
-    environment:
-        DOLI_DB_HOST: mariadb
-        DOLI_DB_USER: root
-        DOLI_DB_PASSWORD: root
-        DOLI_DB_NAME: dolibarr
-        DOLI_URL_ROOT: 'http://0.0.0.0'
-        WWW_USER_ID: 1000
-        WWW_GROUP_ID: 1000
-    ports:
-        - "80:80"
-    links:
-        - mariadb
+    web:
+        build: ./images/8.0.1-php7.1
+        networks:
+          - backend
+        volumes:
+          - ./dolibarr/documents:/var/www/documents
+        environment:
+            DOLI_DB_HOST: mariadb
+            DOLI_DB_USER: root
+            DOLI_DB_PASSWORD: aiCu6au6iqui
+            DOLI_DB_NAME: dolibarr
+            DOLI_URL_ROOT: 'https://picsou-agorae.campus3.fr'
+            PHP_INI_DATE_TIMEZONE: 'Europe/Paris'
+            LETSENCRYPT_HOST: 'picsou-agorae.campus3.fr'
+            LETSENCRYPT_EMAIL: 'contact@campus3.fr'
+            VIRTUAL_HOST: 'picsou-agorae.campus3.fr'
+        ports:
+            - "80:80"
+        links:
+            - mariadb
